@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """ console """
 
 import cmd
@@ -56,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Creates a new instance of a class"""
-        args = arg.split()
+        args = (arg.strip()).split()
         if len(args) == 0:
             print("** class name missing **")
             return False
@@ -90,20 +90,21 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Deletes an instance based on the class and id"""
         args = shlex.split(arg)
+
         if len(args) == 0:
             print("** class name missing **")
-        elif args[0] in classes:
-            if len(args) > 1:
-                key = args[0] + "." + args[1]
-                if key in models.storage.all():
-                    models.storage.all().pop(key)
-                    models.storage.save()
-                else:
-                    print("** no instance found **")
-            else:
-                print("** instance id missing **")
-        else:
+        elif args[0] not in classes:
             print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        else:
+            objs = models.storage.all(classes[args[0]])
+            for key, val in objs.items():
+                if key.split('.')[1] == args[1]:
+                    models.storage.delete(val)
+                    models.storage.save()
+                    return
+            print("** no instance found **")
 
     def do_all(self, arg):
         """Prints string representations of instances"""
