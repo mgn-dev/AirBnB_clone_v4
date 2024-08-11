@@ -9,3 +9,22 @@ header .logo {
     left: 20px;
     height: 100%;
 }
+
+header {
+    position: relative; /* Ensure relative positioning of the header */
+}
+
+#api_status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%); /* Centers the element vertically */
+}
+
+#api_status.available {
+    background-color: #ff545f;
+}
