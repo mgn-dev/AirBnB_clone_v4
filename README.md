@@ -1,165 +1,255 @@
-# AirBnB Clone - The Console
-The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
+# HBnB — Phase 4: Full-Stack Application (Master)
 
-#### Functionalities of this command interpreter:
-* Create a new object (ex: a new User or a new Place)
-* Retrieve an object from a file, a database etc...
-* Do operations on objects (count, compute stats, etc...)
-* Update attributes of an object
-* Destroy an object
+**AirBnB Clone · Phase 4 of 4 — Capstone**
 
-## Table of Content
-* [Environment](#environment)
-* [Installation](#installation)
-* [File Descriptions](#file-descriptions)
-* [Usage](#usage)
-* [Examples of use](#examples-of-use)
-* [Bugs](#bugs)
-* [Authors](#authors)
-* [License](#license)
+This is the final phase of the ALX **HBnB** progression. Integrates every layer built across the previous three phases—domain models, Flask, REST API, static assets—and extends them with a **MySQL database**, **SQLAlchemy ORM**, **Swagger documentation**, a **dynamic JavaScript front end**, and **user credential handling**.
 
-## Environment
-This project is interpreted/tested on Ubuntu 14.04 LTS using python3 (version 3.4.3)
+---
 
-## Installation
-* Clone this repository: `git clone "https://github.com/alexaorrico/AirBnB_clone.git"`
-* Access AirBnb directory: `cd AirBnB_clone`
-* Run hbnb(interactively): `./console` and enter command
-* Run hbnb(non-interactively): `echo "<command>" | ./console.py`
+## The Four-Phase Progression
 
-## File Descriptions
-[console.py](console.py) - the console contains the entry point of the command interpreter. 
-List of commands this console current supports:
-* `EOF` - exits console 
-* `quit` - exits console
-* `<emptyline>` - overwrites default emptyline method and does nothing
-* `create` - Creates a new instance of`BaseModel`, saves it (to the JSON file) and prints the id
-* `destroy` - Deletes an instance based on the class name and id (save the change into the JSON file). 
-* `show` - Prints the string representation of an instance based on the class name and id.
-* `all` - Prints all string representation of all instances based or not on the class name. 
-* `update` - Updates an instance based on the class name and id by adding or updating attribute (save the change into the JSON file). 
+HBnB is intentionally split across four phases. Each phase adds a production concern while reusing the domain model introduced in Phase 1.
 
-#### `models/` directory contains classes used for this project:
-[base_model.py](/models/base_model.py) - The BaseModel class from which future classes will be derived
-* `def __init__(self, *args, **kwargs)` - Initialization of the base model
-* `def __str__(self)` - String representation of the BaseModel class
-* `def save(self)` - Updates the attribute `updated_at` with the current datetime
-* `def to_dict(self)` - returns a dictionary containing all keys/values of the instance
-
-Classes inherited from Base Model:
-* [amenity.py](/models/amenity.py)
-* [city.py](/models/city.py)
-* [place.py](/models/place.py)
-* [review.py](/models/review.py)
-* [state.py](/models/state.py)
-* [user.py](/models/user.py)
-
-#### `/models/engine` directory contains File Storage class that handles JASON serialization and deserialization :
-[file_storage.py](/models/engine/file_storage.py) - serializes instances to a JSON file & deserializes back to instances
-* `def all(self)` - returns the dictionary __objects
-* `def new(self, obj)` - sets in __objects the obj with key <obj class name>.id
-* `def save(self)` - serializes __objects to the JSON file (path: __file_path)
-* ` def reload(self)` -  deserializes the JSON file to __objects
-
-#### `/tests` directory contains all unit test cases for this project:
-[/test_models/test_base_model.py](/tests/test_models/test_base_model.py) - Contains the TestBaseModel and TestBaseModelDocs classes
-TestBaseModelDocs class:
-* `def setUpClass(cls)`- Set up for the doc tests
-* `def test_pep8_conformance_base_model(self)` - Test that models/base_model.py conforms to PEP8
-* `def test_pep8_conformance_test_base_model(self)` - Test that tests/test_models/test_base_model.py conforms to PEP8
-* `def test_bm_module_docstring(self)` - Test for the base_model.py module docstring
-* `def test_bm_class_docstring(self)` - Test for the BaseModel class docstring
-* `def test_bm_func_docstrings(self)` - Test for the presence of docstrings in BaseModel methods
-
-TestBaseModel class:
-* `def test_is_base_model(self)` - Test that the instatiation of a BaseModel works
-* `def test_created_at_instantiation(self)` - Test created_at is a pub. instance attribute of type datetime
-* `def test_updated_at_instantiation(self)` - Test updated_at is a pub. instance attribute of type datetime
-* `def test_diff_datetime_objs(self)` - Test that two BaseModel instances have different datetime objects
-
-[/test_models/test_amenity.py](/tests/test_models/test_amenity.py) - Contains the TestAmenityDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_amenity(self)` - Test that models/amenity.py conforms to PEP8
-* `def test_pep8_conformance_test_amenity(self)` - Test that tests/test_models/test_amenity.py conforms to PEP8
-* `def test_amenity_module_docstring(self)` - Test for the amenity.py module docstring
-* `def test_amenity_class_docstring(self)` - Test for the Amenity class docstring
-
-[/test_models/test_city.py](/tests/test_models/test_city.py) - Contains the TestCityDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_city(self)` - Test that models/city.py conforms to PEP8
-* `def test_pep8_conformance_test_city(self)` - Test that tests/test_models/test_city.py conforms to PEP8
-* `def test_city_module_docstring(self)` - Test for the city.py module docstring
-* `def test_city_class_docstring(self)` - Test for the City class docstring
-
-[/test_models/test_file_storage.py](/tests/test_models/test_file_storage.py) - Contains the TestFileStorageDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_file_storage(self)` - Test that models/file_storage.py conforms to PEP8
-* `def test_pep8_conformance_test_file_storage(self)` - Test that tests/test_models/test_file_storage.py conforms to PEP8
-* `def test_file_storage_module_docstring(self)` - Test for the file_storage.py module docstring
-* `def test_file_storage_class_docstring(self)` - Test for the FileStorage class docstring
-
-[/test_models/test_place.py](/tests/test_models/test_place.py) - Contains the TestPlaceDoc class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_place(self)` - Test that models/place.py conforms to PEP8.
-* `def test_pep8_conformance_test_place(self)` - Test that tests/test_models/test_place.py conforms to PEP8.
-* `def test_place_module_docstring(self)` - Test for the place.py module docstring
-* `def test_place_class_docstring(self)` - Test for the Place class docstring
-
-[/test_models/test_review.py](/tests/test_models/test_review.py) - Contains the TestReviewDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_review(self)` - Test that models/review.py conforms to PEP8
-* `def test_pep8_conformance_test_review(self)` - Test that tests/test_models/test_review.py conforms to PEP8
-* `def test_review_module_docstring(self)` - Test for the review.py module docstring
-* `def test_review_class_docstring(self)` - Test for the Review class docstring
-
-[/test_models/state.py](/tests/test_models/test_state.py) - Contains the TestStateDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_state(self)` - Test that models/state.py conforms to PEP8
-* `def test_pep8_conformance_test_state(self)` - Test that tests/test_models/test_state.py conforms to PEP8
-* `def test_state_module_docstring(self)` - Test for the state.py module docstring
-* `def test_state_class_docstring(self)` - Test for the State class docstring
-
-[/test_models/user.py](/tests/test_models/test_user.py) - Contains the TestUserDocs class:
-* `def setUpClass(cls)` - Set up for the doc tests
-* `def test_pep8_conformance_user(self)` - Test that models/user.py conforms to PEP8
-* `def test_pep8_conformance_test_user(self)` - Test that tests/test_models/test_user.py conforms to PEP8
-* `def test_user_module_docstring(self)` - Test for the user.py module docstring
-* `def test_user_class_docstring(self)` - Test for the User class docstring
-
-
-## Examples of use
 ```
-vagrantAirBnB_clone$./console.py
-(hbnb) help
+Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
+ Console     Flask       REST API    MySQL + JS + Auth
+ JSON        Jinja2      CRUD        SQLAlchemy
+ Static CSS  Templates   Blueprints  Swagger
+```
 
-Documented commands (type help <topic>):
-========================================
-EOF  all  create  destroy  help  quit  show  update
+| Phase | Project | Deliverables | Key Technologies |
+|-------|------------|----------------|------------------|
+| 1 | [AirBnB_clone](https://github.com/mgn-dev/AirBnB_clone) | Domain model, command interpreter, JSON persistence, static HTML/CSS prototype | Python OOP, `cmd`, `uuid`, `json`, HTML5, CSS |
+| 2 | [AirBnB_clone_v2](https://github.com/mgn-dev/AirBnB_clone_v2) | HTTP routes, URL parameters, server-rendered pages | Flask, Jinja2, Fabric deploy |
+| 3 | [AirBnB_clone_v3](https://github.com/mgn-dev/AirBnB_clone_v3) | Versioned JSON API with full CRUD for every resource | Flask Blueprints, REST, Flask-CORS |
+| **4 — current phase** | `AirBnB_clone_v4` | Persistent relational storage, API docs, interactive UI, auth | MySQL, SQLAlchemy, Flasgger, jQuery/AJAX, MD5 password hashing |
 
-(hbnb) all MyModel
-** class doesn't exist **
-(hbnb) create BaseModel
-7da56403-cc45-4f1c-ad32-bfafeb2bb050
-(hbnb) all BaseModel
-[[BaseModel] (7da56403-cc45-4f1c-ad32-bfafeb2bb050) {'updated_at': datetime.datetime(2017, 9, 28, 9, 50, 46, 772167), 'id': '7da56403-cc45-4f1c-ad32-bfafeb2bb050', 'created_at': datetime.datetime(2017, 9, 28, 9, 50, 46, 772123)}]
-(hbnb) show BaseModel 7da56403-cc45-4f1c-ad32-bfafeb2bb050
-[BaseModel] (7da56403-cc45-4f1c-ad32-bfafeb2bb050) {'updated_at': datetime.datetime(2017, 9, 28, 9, 50, 46, 772167), 'id': '7da56403-cc45-4f1c-ad32-bfafeb2bb050', 'created_at': datetime.datetime(2017, 9, 28, 9, 50, 46, 772123)}
-(hbnb) destroy BaseModel 7da56403-cc45-4f1c-ad32-bfafeb2bb050
-(hbnb) show BaseModel 7da56403-cc45-4f1c-ad32-bfafeb2bb050
-** no instance found **
+### Skills Trajectory
+
+| Concern | Phase 1 | Phase 2 | Phase 3 | Phase 4 |
+|---------|---------|---------|---------|---------|
+| Data layer | `FileStorage` + JSON | Same | Same | `DBStorage` + MySQL |
+| User interface | Static HTML/CSS | Jinja2 templates | JSON responses | Dynamic JS + API calls |
+| Transport | N/A | HTTP (HTML) | HTTP (JSON) | HTTP (JSON + CORS) |
+| Documentation | README | README | README | Swagger/OpenAPI YAML |
+| Security | N/A | N/A | N/A | Password hashing on `User` |
+| DevOps | N/A | Fabric + Puppet | Fabric deploy | Dual-server setup (API + web) |
+
+---
+
+## Skills covered
+
+
+- Switch between **file and database storage** using environment-driven dependency injection
+- Model relational data with **SQLAlchemy** declarative base, columns, and `relationship()` mappings
+- Run schema migrations with `Base.metadata.create_all()` and environment-specific teardown
+- Annotate API routes with **Flasgger/Swagger** YAML for interactive documentation
+- Build a **single-page-style listing** that fetches places, filters by amenities/states/cities, and loads reviews via AJAX
+- Build **user registration** with required email/password fields and MD5 password hashing at the model layer
+- Operate a **multi-process deployment**: API server on port 5000, dynamic web server on port 5001
+
+---
+
+## Project Structure
+
+```
+AirBnB_clone_v4/
+├── models/
+│   ├── base_model.py           # SQLAlchemy-aware BaseModel + to_dict()
+│   ├── user.py                 # User with hashed password column
+│   ├── state.py, city.py, place.py, amenity.py, review.py
+│   ├── __init__.py             # Storage factory (file vs db)
+│   └── engine/
+│       ├── file_storage.py     # JSON fallback
+│       └── db_storage.py       # SQLAlchemy session management
+├── api/v1/
+│   ├── app.py                  # Flask + CORS + Swagger
+│   └── views/                  # CRUD + places_search + documentation/*.yml
+├── web_flask/                  # Server-rendered pages backed by MySQL
+├── web_dynamic/                # jQuery front end calling the API
+│   ├── 0-hbnb.py … 101-hbnb.py
+│   ├── templates/
+│   └── static/scripts/         # Progressive JS milestones
+├── web_static/                 # Static assets (0–103-index.html)
+├── console.py                  # Works with either storage backend
+├── setup_mysql_dev.sql
+├── setup_mysql_test.sql
+└── tests/                      # Includes DBStorage tests
+```
+
+---
+
+## Storage Backends
+
+Set `HBNB_TYPE_STORAGE` to choose the persistence engine:
+
+| Value | Engine | Use Case |
+|-------|--------|----------|
+| *(unset)* or anything except `db` | `FileStorage` → `file.json` | Local development, tests |
+| `db` | `DBStorage` → MySQL | Production-like deployment |
+
+### MySQL Setup
+
+```bash
+cat setup_mysql_dev.sql | mysql -u root -p
+```
+
+### Environment Variables
+
+| Variable | Purpose |
+|----------|---------|
+| `HBNB_TYPE_STORAGE` | `db` to enable SQLAlchemy |
+| `HBNB_MYSQL_USER` | Database user |
+| `HBNB_MYSQL_PWD` | Database password |
+| `HBNB_MYSQL_HOST` | Database host |
+| `HBNB_MYSQL_DB` | Database name |
+| `HBNB_ENV` | `test` drops tables on init |
+| `HBNB_API_HOST` | API bind address |
+| `HBNB_API_PORT` | API listen port (default 5000) |
+
+`DBStorage` creates a SQLAlchemy engine, scoped session, and exposes the same interface as `FileStorage`: `all()`, `get()`, `new()`, `save()`, `delete()`, `reload()`, `close()`.
+
+---
+
+## REST API with Swagger
+
+Start the API server:
+
+```bash
+export HBNB_TYPE_STORAGE=db
+export HBNB_MYSQL_USER=hbnb_dev
+export HBNB_MYSQL_PWD=hbnb_dev_pwd
+export HBNB_MYSQL_HOST=localhost
+export HBNB_MYSQL_DB=hbnb_dev_db
+python3 -m api.v1.app
+```
+
+Interactive docs are served by **Flasgger** at `/apidocs/` (Swagger UI v3).
+
+Each view function is decorated with `@swag_from('documentation/.../*.yml')`. YAML files under `api/v1/views/documentation/` describe request bodies, response schemas, and error codes for every endpoint.
+
+### Notable Endpoints Beyond Phase 3
+
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/places_search/` | Filter places by states, cities, and amenities (JSON body) |
+| GET | `/places/<id>/reviews` | Reviews for a place |
+| POST | `/users` | Create user (`email` + `password` required) |
+
+### Authentication (Model Layer)
+
+The `User` model hashes passwords on assignment:
+
+```python
+def __setattr__(self, name, value):
+    if name == "password":
+        value = md5(value.encode()).hexdigest()
+    super().__setattr__(name, value)
+```
+
+API user creation enforces `email` and `password` fields; stored credentials are never returned in GET responses.
+
+---
+
+## Dynamic Front End (`web_dynamic/`)
+
+The dynamic web app runs on **port 5001** and consumes the API on **port 5000**.
+
+```bash
+python3 web_dynamic/101-hbnb.py
+# Visit http://0.0.0.0:5001/101-hbnb/
+```
+
+### JavaScript Progression
+
+| Script | Skill |
+|--------|-------|
+| `1-hbnb.js` | Checkbox amenity filter updates DOM text |
+| `2-hbnb.js` | API status indicator (`/api/v1/status/`) |
+| `3-hbnb.js` | Fetch and render places from API |
+| `4-hbnb.js` | Client-side filtering |
+| `100-hbnb.js` | Advanced filter UI |
+| `101-hbnb.js` | Full search via `POST /places_search/`, lazy-loaded reviews |
+
+Example: the status check turns the API health dot green when the backend responds OK:
+
+```javascript
+$.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
+    if (data.status === "OK") {
+        $('#api_status').addClass('available');
+    }
+});
+```
+
+The final script posts filter selections as JSON and rebuilds the places grid without a page reload.
+
+---
+
+## Server-Rendered Pages (`web_flask/`)
+
+Flask templates (`100-hbnb.html`, `101-hbnb.html`, `10-hbnb_filters.html`) query MySQL through `storage.all()` and pass sorted states, cities, amenities, and places to Jinja2—demonstrating both SSR and CSR approaches side by side.
+
+---
+
+## Console
+
+The command interpreter works with either storage backend. Seed the database before starting the web tier:
+
+```bash
+export HBNB_TYPE_STORAGE=db
+# ... MySQL env vars ...
+./console.py
+(hbnb) create User
+(hbnb) update User <id> email "admin@hbnb.io" password "admin1234"
+(hbnb) create State
+(hbnb) update State <id> name "California"
 (hbnb) quit
 ```
 
-## Bugs
-No known bugs at this time. 
+---
 
-## Authors
-Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
-Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)  
-Jhoan Zamora - [Github](https://github.com/jzamora5) / [Twitter](https://twitter.com/JhoanZamora10)  
-David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twitter.com/disartDave)
-Mojalefa Nkwana - [Github](https://github.com/emjay026)
+## Testing
 
-Second part of Airbnb: Joann Vuong
+```bash
+export HBNB_TYPE_STORAGE=db
+export HBNB_ENV=test
+python3 -m unittest discover tests
+```
+
+Includes dedicated tests for `DBStorage` session lifecycle and model persistence.
+
+---
+
+## Deployment Architecture
+
+```
+┌─────────────────┐     AJAX/JSON      ┌─────────────────┐
+│  web_dynamic    │ ─────────────────► │  api/v1 (5000)  │
+│  Flask (5001)   │                    │  Flask + Swagger│
+└─────────────────┘                    └────────┬────────┘
+                                              │
+                                              ▼
+                                     ┌─────────────────┐
+                                     │  MySQL (hbnb)   │
+                                     └─────────────────┘
+```
+
+Static assets deploy via the Fabric scripts inherited from Phases 2–3 (`0-setup_web_static.sh` through `3-deploy_web_static.py`).
+
+---
+
+## What Came Before
+
+This project assumes completion of the full chain:
+
+1. **[Phase 1](https://github.com/mgn-dev/AirBnB_clone)** — Models, console, JSON, static CSS
+2. **[Phase 2](https://github.com/mgn-dev/AirBnB_clone_v2)** — Flask and Jinja2
+3. **[Phase 3](https://github.com/mgn-dev/AirBnB_clone_v3)** — REST API and CRUD
+
+Together, the four phases mirror how a real product evolves from a CLI prototype to a documented, database-backed web application.
+
+---
+
 ## License
-Public Domain. No copy write protection. 
+
+Public domain.
